@@ -1,0 +1,215 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--space-lg);
+}
+
+.app-container {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+/* Header */
+.main-header {
+    text-align: center;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-md);
+}
+
+.main-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xxl);
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-xs);
+}
+
+.main-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
+/* Selector y Buscador */
+.selector-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: center;
+    width: 100%;
+}
+
+.search-box, .dropdown-box {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.selector-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-input, .sonnet-dropdown {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    box-shadow: 0 2px 4px var(--color-shadow);
+    transition: border-color var(--transition-medium);
+}
+
+.search-input:focus, .sonnet-dropdown:focus, .sonnet-dropdown:hover {
+    border-color: var(--color-accent);
+}
+
+/* Desplegable de búsqueda Flotante */
+.search-results-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 4px 12px var(--color-shadow);
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.search-results-list.hidden {
+    display: none;
+}
+
+.search-result-item {
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-bg);
+    transition: background-color var(--transition-fast);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--color-bg);
+}
+
+.result-title {
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.result-author {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    font-style: italic;
+}
+
+.no-results {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+/* Tarjeta del Soneto */
+.sonnet-card {
+    background-color: var(--color-surface);
+    padding: var(--space-xl);
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 12px var(--color-shadow);
+    border: 1px solid var(--color-border);
+    opacity: 1;
+    transition: opacity var(--transition-medium);
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.sonnet-card.fade-out {
+    opacity: 0;
+}
+
+.sonnet-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.sonnet-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.sonnet-author {
+    font-size: var(--font-size-base);
+    color: var(--color-accent);
+    font-style: italic;
+}
+
+/* Estructura poética */
+.sonnet-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.stanza {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    text-align: center;
+    width: 100%;
+}
+
+.verse {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-primary);
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+}
+
+.main-footer {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: auto;
+}
