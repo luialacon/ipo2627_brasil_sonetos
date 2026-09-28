@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antología del Soneto</title>
+
+    <!-- Estilos: :root con los diseños + secciones cromática, tipográfica y espacial -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Módulo JS: se ejecuta diferido, cuando el DOM ya está construido -->
+    <script type="module" src="js/app.js"></script>
+</head>
+<body class="pagina">
+    <header class="cabecera">
+        <h1 class="cabecera__titulo">Antología del Soneto</h1>
+        <p class="cabecera__subtitulo">14 versos de arte mayor en cuatro estrofas</p>
+    </header>
+
+    <main class="pagina__principal">
+        <search class="selector" aria-label="Elegir soneto">
+            <div class="selector__campo">
+                <label for="buscador" class="selector__etiqueta">Busca por título o autor</label>
+                <div class="selector__combo">
+                    <input type="search" id="buscador" class="selector__buscador"
+                           placeholder="Por ejemplo: Quevedo, nariz…" autocomplete="off"
+                           role="combobox" aria-autocomplete="list"
+                           aria-expanded="false" aria-controls="resultados">
+                    <ul id="resultados" class="selector__resultados selector__resultados--oculto"
+                        role="listbox" aria-label="Resultados de la búsqueda"></ul>
+                </div>
+            </div>
+
+            <div class="selector__campo">
+                <label for="desplegable" class="selector__etiqueta">O elígelo de la lista</label>
+                <select id="desplegable" class="selector__desplegable"></select>
+            </div>
+        </search>
+
+        <article id="soneto" class="soneto" aria-labelledby="titulo-soneto">
+            <p class="soneto__estado">Cargando sonetos…</p>
+        </article>
+    </main>
+
+    <footer class="pie">
+        <p>&copy; Lector de Sonetos Clásicos — Diseño e Interacción Poética</p>
+    </footer>
+</body>
+</html>

@@ -1,11 +1,7 @@
-import { SonnetModel } from './model.js';
-import { SonnetView } from './view.js';
-import { SonnetController } from './controller.js';
+import { Modelo } from './modelo.js';
+import { Vista } from './vista.js';
+import { Controlador } from './controlador.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    const model = new SonnetModel();
-    const view = new SonnetView();
-    const app = new SonnetController(model, view);
-
-    app.init();
-});
+// Al ser un módulo, el script se ejecuta cuando el DOM ya está listo
+const controlador = new Controlador(new Modelo(), new Vista());
+controlador.iniciar();

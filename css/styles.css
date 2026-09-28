@@ -1,215 +1,421 @@
-* {
+/* ==========================================================================
+   LECTOR DE SONETOS — Hoja de estilos
+
+   Índice:
+     1. :root  → variables de todos los diseños (concentradas aquí)
+     2. Reset
+     3. Diseño cromático
+     4. Diseño tipográfico
+     5. Diseño espacial
+     6. Diseño cinético e interacción
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. :ROOT — Variables globales de los diseños
+   ========================================================================== */
+
+:root {
+    /* --- Diseño cromático ------------------------------------------------
+       Estrategia: COMPLEMENTARIA con tono dominante.
+       Toda la interfaz usa un único tono (terracota) variando saturación y
+       luminosidad; el complementario (+180) se reserva para el foco. */
+    --tono: 18;
+    --tono-complementario: calc(var(--tono) + 180);
+
+    --color-fondo: hsl(var(--tono), 35%, 96%);
+    --color-superficie: hsl(var(--tono), 50%, 99%);
+    --color-realce: hsl(var(--tono), 45%, 92%);
+    --color-borde: hsl(var(--tono), 25%, 85%);
+    --color-texto: hsl(var(--tono), 20%, 15%);
+    --color-texto-secundario: hsl(var(--tono), 12%, 33%);
+    --color-acento: hsl(var(--tono), 57%, 40%);
+    --color-sombra: hsl(var(--tono) 20% 15% / 0.08);
+    --color-foco: hsl(var(--tono-complementario), 70%, 35%);
+
+    /* --- Diseño tipográfico ----------------------------------------------
+       Estrategia: DOS FUENTES CONTRASTADAS (estándar del sistema).
+       Serif para el contenido literario, sans-serif para la interfaz.
+       Jerarquía: escala modular (razón 1.2) calculada desde 1rem. */
+    --fuente-contenido: Georgia, "Times New Roman", Times, serif;
+    --fuente-interfaz: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --escala: 1.2;
+    --tamano-base: 1rem;
+    --tamano-sm: calc(var(--tamano-base) / var(--escala));
+    --tamano-lg: calc(var(--tamano-base) * var(--escala));
+    --tamano-xl: calc(var(--tamano-lg) * var(--escala));
+    --tamano-xxl: calc(var(--tamano-xl) * var(--escala));
+
+    --interlineado-texto: 1.6;
+    --interlineado-titulo: 1.2;
+
+    /* --- Diseño espacial -------------------------------------------------
+       Unidades rem para espacios y min() para anchos de contenedor. */
+    --espacio-xs: 0.25rem;
+    --espacio-sm: 0.5rem;
+    --espacio-md: 1rem;
+    --espacio-lg: 1.5rem;
+    --espacio-xl: 2.5rem;
+
+    --radio-sm: 0.25rem;
+    --radio-md: 0.5rem;
+
+    --ancho-contenido: 42rem;
+    --ancho-controles: 26rem;
+
+    /* --- Diseño cinético -------------------------------------------------
+       vista.js lee --duracion-transicion desde el CSSOM. */
+    --duracion-rapida: 150ms;
+    --duracion-transicion: 300ms;
+}
+
+/* Respeta la preferencia del usuario de reducir animaciones */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --duracion-rapida: 0ms;
+        --duracion-transicion: 0ms;
+    }
+}
+
+
+/* ==========================================================================
+   2. RESET — Unifica el comportamiento entre navegadores
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body {
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
-    font-family: var(--font-body);
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-    padding: var(--space-lg);
+/* Los controles de formulario no heredan la fuente por defecto */
+input,
+select {
+    font: inherit;
+    color: inherit;
 }
 
-.app-container {
-    width: 100%;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
+
+/* ==========================================================================
+   3. DISEÑO CROMÁTICO
+   color, background-color, border-color, box-shadow, outline
+   ========================================================================== */
+
+/* Foco visible solo al navegar con teclado (color complementario) */
+:focus-visible {
+    outline: 0.1875rem solid var(--color-foco);
+    outline-offset: 0.125rem;
 }
 
-/* Header */
-.main-header {
+.pagina {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+.cabecera {
+    border-bottom-color: var(--color-borde);
+}
+
+.cabecera__titulo {
+    color: var(--color-acento);
+}
+
+/* Textos secundarios: mismo color = misma función (Gestalt: semejanza) */
+.cabecera__subtitulo,
+.selector__etiqueta,
+.selector__vacio,
+.soneto__estado,
+.pie {
+    color: var(--color-texto-secundario);
+}
+
+.selector__buscador,
+.selector__desplegable {
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde);
+    box-shadow: 0 0.125rem 0.25rem var(--color-sombra);
+
+    &:hover,
+    &:focus {
+        border-color: var(--color-acento);
+    }
+}
+
+.selector__resultados {
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde);
+    box-shadow: 0 0.25rem 0.75rem var(--color-sombra);
+}
+
+.selector__resultado {
+    border-bottom-color: var(--color-fondo);
+
+    &:hover,
+    &.selector__resultado--activo {
+        background-color: var(--color-realce);
+    }
+}
+
+/* El autor siempre en color acento, en la lista y en el soneto (semejanza) */
+.selector__resultado-autor,
+.soneto__autor {
+    color: var(--color-acento);
+}
+
+/* Tarjeta del soneto (Gestalt: región común) */
+.soneto {
+    background-color: var(--color-superficie);
+    border-color: var(--color-borde);
+    box-shadow: 0 0.25rem 0.75rem var(--color-sombra);
+}
+
+
+/* ==========================================================================
+   4. DISEÑO TIPOGRÁFICO
+   font-*, line-height, letter-spacing, text-align, list-style
+   ========================================================================== */
+
+.pagina {
+    font-family: var(--fuente-contenido);
+    font-size: var(--tamano-base);
+    line-height: var(--interlineado-texto);
+}
+
+.cabecera {
     text-align: center;
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: var(--space-md);
 }
 
-.main-title {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-xxl);
-    color: var(--color-accent);
+.cabecera__titulo {
+    font-size: var(--tamano-xxl);
+    font-variant-caps: small-caps;
     letter-spacing: 0.05em;
-    margin-bottom: var(--space-xs);
+    line-height: var(--interlineado-titulo);
 }
 
-.main-subtitle {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
+.cabecera__subtitulo {
+    font-size: var(--tamano-sm);
     font-style: italic;
 }
 
-/* Selector y Buscador */
-.selector-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    align-items: center;
-    width: 100%;
-}
-
-.search-box, .dropdown-box {
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-}
-
-.selector-label {
-    font-size: var(--font-size-sm);
+/* Selector de sonetos: fuente de interfaz */
+.selector__etiqueta {
+    font-family: var(--fuente-interfaz);
+    font-size: var(--tamano-sm);
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
 }
 
-.search-input-wrapper {
+.selector__buscador,
+.selector__desplegable,
+.selector__resultados {
+    font-family: var(--fuente-interfaz);
+}
+
+.selector__resultados {
+    list-style: none;
+}
+
+.selector__resultado-titulo {
+    font-weight: 600;
+}
+
+.selector__resultado-autor {
+    font-size: var(--tamano-sm);
+    font-style: italic;
+}
+
+.selector__vacio {
+    font-size: var(--tamano-sm);
+    text-align: center;
+}
+
+/* Soneto: fuente de contenido */
+.soneto {
+    text-align: center;
+}
+
+.soneto__titulo {
+    font-size: var(--tamano-xl);
+    line-height: var(--interlineado-titulo);
+}
+
+.soneto__autor {
+    font-style: italic;
+}
+
+.soneto__verso {
+    font-size: var(--tamano-lg);
+}
+
+.soneto__estado {
+    font-family: var(--fuente-interfaz);
+    font-style: italic;
+}
+
+.pie {
+    font-family: var(--fuente-interfaz);
+    font-size: var(--tamano-sm);
+    text-align: center;
+}
+
+
+/* ==========================================================================
+   5. DISEÑO ESPACIAL
+   display, flex, gap, padding, width, border-width/style, position
+   Flexbox en los contenedores; flujo normal en las hojas (texto).
+   Gestalt: proximidad (versos juntos, estrofas separadas) y región común.
+   ========================================================================== */
+
+.pagina {
+    min-height: 100vh;
+    padding: var(--espacio-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-xl);
+}
+
+.cabecera,
+.pagina__principal,
+.pie {
+    width: min(100%, var(--ancho-contenido));
+}
+
+.pagina__principal {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xl);
+}
+
+.cabecera {
+    padding-bottom: var(--espacio-md);
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+
+/* Selector de sonetos */
+.selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-md);
+}
+
+.selector__campo {
+    width: min(100%, var(--ancho-controles));
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xs);
+}
+
+/* Referencia para posicionar la lista de resultados */
+.selector__combo {
     position: relative;
+}
+
+.selector__buscador,
+.selector__desplegable {
     width: 100%;
+    padding: var(--espacio-sm) var(--espacio-md);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: var(--radio-sm);
 }
 
-.search-input, .sonnet-dropdown {
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    font-family: var(--font-body);
-    font-size: var(--font-size-base);
-    color: var(--color-text-primary);
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    outline: none;
-    box-shadow: 0 2px 4px var(--color-shadow);
-    transition: border-color var(--transition-medium);
-}
-
-.search-input:focus, .sonnet-dropdown:focus, .sonnet-dropdown:hover {
-    border-color: var(--color-accent);
-}
-
-/* Desplegable de búsqueda Flotante */
-.search-results-list {
+/* Posicionamiento: la lista se superpone al contenido sin desplazarlo */
+.selector__resultados {
     position: absolute;
-    top: calc(100% + 4px);
+    top: calc(100% + var(--espacio-xs));
     left: 0;
     right: 0;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    box-shadow: 0 4px 12px var(--color-shadow);
-    list-style: none;
-    max-height: 200px;
+    z-index: 10;
+    max-height: 12rem;
     overflow-y: auto;
-    z-index: 100;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: var(--radio-sm);
+
+    &.selector__resultados--oculto {
+        display: none;
+    }
 }
 
-.search-results-list.hidden {
-    display: none;
-}
-
-.search-result-item {
-    padding: var(--space-sm) var(--space-md);
-    cursor: pointer;
+.selector__resultado {
+    padding: var(--espacio-sm) var(--espacio-md);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--color-bg);
-    transition: background-color var(--transition-fast);
+    align-items: baseline;
+    gap: var(--espacio-md);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
+    &:last-child {
+        border-bottom-width: 0;
+    }
 }
 
-.search-result-item:last-child {
-    border-bottom: none;
+.selector__vacio {
+    padding: var(--espacio-sm) var(--espacio-md);
 }
 
-.search-result-item:hover {
-    background-color: var(--color-bg);
-}
-
-.result-title {
-    font-weight: 600;
-    color: var(--color-text-primary);
-}
-
-.result-author {
-    font-size: var(--font-size-sm);
-    color: var(--color-accent);
-    font-style: italic;
-}
-
-.no-results {
-    padding: var(--space-sm) var(--space-md);
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    text-align: center;
-}
-
-/* Tarjeta del Soneto */
-.sonnet-card {
-    background-color: var(--color-surface);
-    padding: var(--space-xl);
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 12px var(--color-shadow);
-    border: 1px solid var(--color-border);
-    opacity: 1;
-    transition: opacity var(--transition-medium);
-    width: 100%;
-    overflow-x: hidden;
-}
-
-.sonnet-card.fade-out {
-    opacity: 0;
-}
-
-.sonnet-header {
-    text-align: center;
-    margin-bottom: var(--space-xl);
-}
-
-.sonnet-title {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-xl);
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-xs);
-}
-
-.sonnet-author {
-    font-size: var(--font-size-base);
-    color: var(--color-accent);
-    font-style: italic;
-}
-
-/* Estructura poética */
-.sonnet-body {
+/* Soneto */
+.soneto {
+    padding: var(--espacio-xl);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-lg);
+    gap: var(--espacio-xl);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: var(--radio-md);
 }
 
-.stanza {
+.soneto__cabecera {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    text-align: center;
-    width: 100%;
+    gap: var(--espacio-xs);
 }
 
-.verse {
-    font-size: var(--font-size-lg);
-    color: var(--color-text-primary);
-    white-space: normal;
-    word-break: break-word;
-    text-align: center;
+/* Proximidad: las estrofas separadas entre sí... */
+.soneto__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-lg);
 }
 
-.main-footer {
-    text-align: center;
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    margin-top: auto;
+/* ...y los versos de una misma estrofa, juntos */
+.soneto__estrofa {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xs);
+}
+
+
+/* ==========================================================================
+   6. DISEÑO CINÉTICO E INTERACCIÓN
+   transition, opacity del fundido, cursor
+   ========================================================================== */
+
+.selector__buscador,
+.selector__desplegable {
+    transition: border-color var(--duracion-rapida) ease;
+}
+
+.selector__desplegable,
+.selector__resultado {
+    cursor: pointer;
+}
+
+.selector__resultado {
+    transition: background-color var(--duracion-rapida) ease;
+}
+
+.soneto {
+    transition: opacity var(--duracion-transicion) ease;
+
+    &.soneto--desvanecido {
+        opacity: 0;
+    }
 }

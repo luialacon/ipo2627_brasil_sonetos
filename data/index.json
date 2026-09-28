@@ -1,27 +1,27 @@
 [
   {
     "id": "definicion-de-soneto",
-    "title": "Definición de soneto",
-    "file": "data/sonnets/unSonetoMeManda.md"
+    "titulo": "Definición de soneto",
+    "fichero": "data/sonnets/unSonetoMeManda.md"
   },
   {
     "id": "mientras-por-competir",
-    "title": "Mientras por competir",
-    "file": "data/sonnets/mientrasPorCompetir.md"
+    "titulo": "Mientras por competir",
+    "fichero": "data/sonnets/mientrasPorCompetir.md"
   },
   {
     "id": "escrito-esta-en-mi-alma",
-    "title": "Escrito está en mi alma",
-    "file": "data/sonnets/escritoEstaEnMiALma.md"
+    "titulo": "Escrito está en mi alma",
+    "fichero": "data/sonnets/escritoEstaEnMiALma.md"
   },
   {
     "id": "a-una-nariz",
-    "title": "A una nariz",
-    "file": "data/sonnets/eraseUnHombre.md"
+    "titulo": "A una nariz",
+    "fichero": "data/sonnets/eraseUnHombre.md"
   },
   {
     "id": "mire-los-muros",
-    "title": "Miré los muros",
-    "file": "data/sonnets/mireLosMuros.md"
+    "titulo": "Miré los muros",
+    "fichero": "data/sonnets/mireLosMuros.md"
   }
 ]
